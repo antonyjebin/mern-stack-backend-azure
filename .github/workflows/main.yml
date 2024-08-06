@@ -18,9 +18,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
         working-directory: ./server  # Assuming your package.json is in the 'server' directory
-      - name: Build Project
-        run: npm run build  # Add this step if your project requires a build step
-        working-directory: ./server  # Assuming your package.json is in the 'server' directory
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v2
         with:
