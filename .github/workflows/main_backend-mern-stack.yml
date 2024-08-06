@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy Node.js project to Azure Function App - backend-mern-stack
 
 on:
@@ -25,17 +28,11 @@ jobs:
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           npm install
           npm run build --if-present
           npm run test --if-present
           popd
-
-      - name: 'Archive production-ready files'
-        shell: bash
-        run: |
-          cd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          zip -r ../app.zip .
 
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
@@ -43,5 +40,5 @@ jobs:
         with:
           app-name: 'backend-mern-stack'
           slot-name: 'Production'
-          package: './app.zip'
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_11AD45C5F8864EE8B23E75B17B59071D }}
